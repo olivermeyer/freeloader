@@ -1,0 +1,68 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+# Overview
+
+climbr is a training planning webapp for climbers, designed to help users create and manage their training plans effectively. The application is built using FastAPI and PostgreSQL.
+
+Tests are written in the `climbr/tests` directory.
+
+# Development Rules
+
+## Overview
+This project follows strict Test-Driven Development (TDD) principles and maintains high code quality through automated tools.
+
+## Development Workflow
+
+Before and after making ANY change, run ALL tests using `make test`.
+
+### 1. Test-Driven Development (TDD)
+- Requirements must be clarified and documented before any code changes
+- All new features must start with failing tests
+- Tests must be written in small, incremental steps
+- Code changes must be made in small, incremental steps
+- All tests must pass before considering a feature complete
+
+### 2. Code Quality
+- All code must be formatted using Ruff
+- All code must pass Ruff linting checks
+- Code must be well-documented with clear docstrings
+- Type hints must be used consistently
+
+### 3. Version Control
+- Commits must be small and focused
+- Each commit should contain either:
+  - Logic changes, or
+  - Refactoring changes
+  - Never both in the same commit
+- Commit messages should be clear and descriptive
+
+### 4. Documentation
+- README.md must be kept up-to-date
+- All API endpoints must be documented
+- Setup instructions must be clear and complete
+- Any changes to setup requirements must be reflected in documentation
+
+### 5. Testing
+- All new features must have corresponding tests
+- Test coverage should be maintained
+- Tests should be:
+  - Independent
+  - Repeatable
+  - Self-validating
+  - Timely
+- Test names MUST follow the BDD pattern: `test_<component>_should_<expected_outcome>_for_<situation>`
+  - The pattern helps clearly communicate:
+    - What is being tested (feature)
+    - What should happen (expected_outcome)
+    - Under what conditions (situation)
+
+### 6. Code Review Guidelines
+- Code must be reviewed before merging
+- All tests must pass
+- Code must be properly formatted
+- Documentation must be up-to-date
+- Type hints must be correct
+- No security vulnerabilities
