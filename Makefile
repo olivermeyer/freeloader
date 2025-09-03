@@ -1,0 +1,32 @@
+.PHONY: help
+help:
+	@echo "Available targets:"
+	@grep -E '^[a-zA-Z_-]+:' Makefile | grep -v '^_' | cut -d: -f1 | xargs -n1 echo "  -"
+
+.PHONY: setup
+setup:
+	poetry install
+	poetry run pre-commit install
+
+.PHONY: start
+start:
+	docker compose up --build -d
+
+.PHONY: stop
+stop:
+	docker compose down
+
+.PHONY: test
+test:
+	docker compose exec app poetry run pytest src/tests
+
+.PHONY: create-migration
+create-migration:
+ifndef message
+	$(error "message is required. Usage: make create-migration message='your migration message'")
+endif
+	docker compose exec app poetry run alembic revision --autogenerate -m "$(message)"
+
+.PHONY: wipe
+wipe:
+	docker volume rm climbr_db_data
