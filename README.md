@@ -25,7 +25,7 @@ Components
 
 * Track
   * Represents one track in a recording
-  * Can be split into Segments
+  * Can be split into Parts
 
-* Segment
+* Part (renamed from Segment to avoid confusion with pydub's AudioSegment)
   * Represents one part of a track in a recording
