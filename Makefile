@@ -19,14 +19,3 @@ stop:
 .PHONY: test
 test:
 	docker compose exec app poetry run pytest src/tests
-
-.PHONY: create-migration
-create-migration:
-ifndef message
-	$(error "message is required. Usage: make create-migration message='your migration message'")
-endif
-	docker compose exec app poetry run alembic revision --autogenerate -m "$(message)"
-
-.PHONY: wipe
-wipe:
-	docker volume rm climbr_db_data

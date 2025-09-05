@@ -20,12 +20,7 @@ track information if available. It the track was not recognised, it is marked as
 
 
 Components
-* Recording
-  * Can be split into Tracks
-
-* Track
-  * Represents one track in a recording
-  * Can be split into Parts
-
-* Part (renamed from Segment to avoid confusion with pydub's AudioSegment)
-  * Represents one part of a track in a recording
+* Audio
+  * Represents an audio segment
+  * Can be split into parts
+  * Recordings, Tracks and Parts are all Audio objects
