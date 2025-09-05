@@ -1,7 +1,7 @@
 from sclib import SoundcloudAPI
 
 
-def download(url: str, path: str) -> str:
+def download(url: str, path: str) -> str:  # TODO: make async
     """Download a SoundCloud track from the given URL to the specified path."""
     track = SoundcloudAPI().resolve(url)
     with open(path, "wb+") as file:
