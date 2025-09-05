@@ -18,3 +18,8 @@ class Audio:
             Audio(self.segment[start:end])
             for start, end in zip([0] + markers, markers + [len(self.segment)])
         ]
+
+    @staticmethod
+    def load(path: str) -> "Audio":
+        """Load an audio file from the given path."""
+        return Audio(segment=AudioSegment.from_file(path))

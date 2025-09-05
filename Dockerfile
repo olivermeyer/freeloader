@@ -6,6 +6,8 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y ffmpeg libavcodec-extra
+
 RUN pip install --no-cache-dir "poetry==$POETRY_VERSION"
 
 COPY pyproject.toml poetry.lock ./
