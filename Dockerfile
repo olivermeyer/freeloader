@@ -1,4 +1,4 @@
-FROM python:3.12-bullseye
+FROM python:3.13-bullseye
 
 ENV PYTHONUNBUFFERED=1 \
     POETRY_VERSION=2.0.1 \
