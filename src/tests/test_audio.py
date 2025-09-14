@@ -1,4 +1,3 @@
-import os
 import tempfile
 from typing import Generator
 
@@ -37,11 +36,3 @@ def test_audio_can_load_local_file(mp3):
     _, path = mp3
     audio = Audio.load(path)
     assert round(audio.segment.duration_seconds, 3) == 0.005
-
-
-def test_audio_can_save_to_local_file(mp3):
-    _, path = mp3
-    audio = Audio.load(path)
-    with tempfile.NamedTemporaryFile(suffix=".mp3") as fh:
-        audio.save(fh.name)
-        assert os.path.exists(fh.name)

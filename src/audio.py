@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 from typing import Annotated
 
 from pydub import AudioSegment
+from shazamio import Shazam
 
 Marker = Annotated[int, "Marker in milliseconds"]
 
@@ -25,8 +27,19 @@ class Audio:
         """Load an audio file from the given path."""
         return Audio(segment=AudioSegment.from_file(path), path=path)
 
-    def save(self, path: str) -> str:
-        """Save the audio segment to the given path."""
-        self.segment.export(path, format="mp3")
-        self.path = path
-        return path
+
+@dataclass
+class TrackInfo:
+    artist: str
+    title: str
+
+
+async def analyze(audio: Audio) -> TrackInfo | None:
+    """Analyze the audio segment and return its properties."""
+    shazam = Shazam()
+    response = await shazam.recognize(audio.segment.raw_data)
+    if "track" in response and response["track"]:
+        return TrackInfo(
+            artist=response["track"]["subtitle"],
+            title=response["track"]["title"],
+        )
