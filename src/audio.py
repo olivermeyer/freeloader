@@ -3,9 +3,8 @@ import tempfile
 from pydub import AudioSegment
 from tqdm import tqdm
 
-from models import TrackInfo
+from models import TimeInMs, TrackInfo
 from shazam import recognize
-from src.types import TimeInMs
 
 OFFSET: TimeInMs = 30000
 CHUNK_SIZE: TimeInMs = 60000

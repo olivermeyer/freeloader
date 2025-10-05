@@ -1,9 +1,10 @@
 from dataclasses import dataclass, field
+from typing import Annotated
 from urllib.parse import quote
 
 from prettytable import PrettyTable
 
-from src.types import TimeInMs
+TimeInMs = Annotated[int, "Duration in milliseconds"]
 
 
 @dataclass(frozen=True)
