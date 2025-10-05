@@ -6,8 +6,8 @@ from tqdm import tqdm
 from models import TrackInfo
 from shazam import recognize
 
-OFFSET = 60000
-CHUNK_SIZE = 120000
+OFFSET = 30000
+CHUNK_SIZE = 60000
 SAMPLE_SIZE = 20000
 
 

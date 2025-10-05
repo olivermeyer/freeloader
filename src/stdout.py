@@ -8,7 +8,7 @@ def format_timestamp(ms: int) -> str:
 
 def display(tracklist: Tracklist):
     table = PrettyTable()
-    table.field_names = ["Time", "Artist", "Title"]
+    table.field_names = ["Time", "Track"]
     for timestamp, track in tracklist.tracks.items():
-        table.add_row([format_timestamp(timestamp), track.artist, track.title])
+        table.add_row([format_timestamp(timestamp), f"{track.artist} - {track.title}"])
     print(table)
