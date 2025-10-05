@@ -3,7 +3,6 @@
 ## Prerequisites
 * Python 3.13
 * Poetry
-* Make
 
 ## Setup
 Install dependencies:
