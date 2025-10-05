@@ -1,45 +1,45 @@
-from dataclasses import dataclass
-from typing import Annotated
+import tempfile
 
 from pydub import AudioSegment
-from shazamio import Shazam
+from tqdm import tqdm
 
-Marker = Annotated[int, "Marker in milliseconds"]
+from models import TrackInfo
+from shazam import recognize
+
+OFFSET = 60000
+CHUNK_SIZE = 120000
+SAMPLE_SIZE = 20000
 
 
 class Audio:
-    def __init__(self, segment: AudioSegment, path: str | None = None):
+    def __init__(self, segment: AudioSegment):
         """Initialize Audio with a pydub AudioSegment."""
         self.segment = segment
-        self.path = None
 
-    def split(self, markers: list[Marker]) -> list["Audio"]:
-        """Split the audio segment at the given markers."""
-        if max(markers) > len(self.segment):
-            raise ValueError("Marker exceeds audio segment duration")
-        return [
-            Audio(self.segment[start:end])
-            for start, end in zip([0] + markers, markers + [len(self.segment)])
-        ]
+    def split(self, offset: int, chunk_size: int) -> list["Audio"]:
+        """Split audio into chunks of given size."""
+        chunks = []
+        for i in range(offset, len(self.segment), chunk_size):
+            chunks.append(Audio(self.segment[i:i+chunk_size]))
+        return chunks
 
-    @staticmethod
-    def load(path: str) -> "Audio":
-        """Load an audio file from the given path."""
-        return Audio(segment=AudioSegment.from_file(path), path=path)
+    def sample(self, size: int) -> "Audio":
+        return Audio(self.segment[:size])
 
 
-@dataclass
-class TrackInfo:
-    artist: str
-    title: str
+def load(path: str) -> "Audio":
+    """Load an audio file from the given path."""
+    print(f"Loading audio")
+    return Audio(segment=AudioSegment.from_file(path))
 
 
-async def analyze(audio: Audio) -> TrackInfo | None:
-    """Analyze the audio segment and return its properties."""
-    shazam = Shazam()
-    response = await shazam.recognize(audio.segment.raw_data)
-    if "track" in response and response["track"]:
-        return TrackInfo(
-            artist=response["track"]["subtitle"],
-            title=response["track"]["title"],
-        )
+def analyze(audio: Audio) -> dict[int, TrackInfo]:
+    print(f"Analyzing:")
+    tracks = {}
+    with tempfile.NamedTemporaryFile(suffix='.mp3') as tmp_file:
+        for i, chunk in enumerate(tqdm(audio.split(OFFSET, CHUNK_SIZE))):
+            chunk.sample(SAMPLE_SIZE).segment.export(tmp_file.name)
+            if track_info := recognize(tmp_file.name):
+                time = OFFSET + i * CHUNK_SIZE
+                tracks[time] = track_info
+    return tracks
