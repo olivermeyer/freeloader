@@ -4,7 +4,6 @@ import tempfile
 import soundcloud
 from audio import load, analyze
 from models import Tracklist
-from stdout import display
 
 
 def find_tracklist(url: str):
@@ -19,7 +18,7 @@ def find_tracklist(url: str):
             tracks=analyze(audio),
         )
         tracklist.deduplicate()
-        display(tracklist)
+        tracklist.print()
 
 
 if __name__ == "__main__":
