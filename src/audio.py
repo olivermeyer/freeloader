@@ -20,26 +20,29 @@ class Audio:
         """Split audio into chunks of given size."""
         chunks = []
         for i in range(offset, len(self.segment), chunk_size):
-            chunks.append(Audio(self.segment[i:i+chunk_size]))
+            chunks.append(Audio(self.segment[i : i + chunk_size]))
         return chunks
 
     def sample(self, size: int) -> "Audio":
+        """Sample audio with given size."""
         return Audio(self.segment[:size])
 
     def export(self, path: str):
+        """Export audio to given path."""
         self.segment.export(path)
 
 
 def load(path: str) -> "Audio":
     """Load an audio file from the given path."""
-    print(f"Loading audio")
+    print("Loading audio")
     return Audio(segment=AudioSegment.from_file(path))
 
 
 def analyze(audio: Audio) -> dict[int, TrackInfo]:
-    print(f"Analyzing:")
+    """Analyze the given audio."""
+    print("Analyzing:")
     tracks = {}
-    with tempfile.NamedTemporaryFile(suffix='.mp3') as tmp_file:
+    with tempfile.NamedTemporaryFile(suffix=".mp3") as tmp_file:
         for i, chunk in enumerate(tqdm(audio.split(OFFSET, CHUNK_SIZE))):
             chunk.sample(SAMPLE_SIZE).export(tmp_file.name)
             if track_info := recognize(tmp_file.name):

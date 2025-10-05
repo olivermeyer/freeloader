@@ -6,6 +6,7 @@ from models import TrackInfo
 
 
 def recognize(path: str) -> TrackInfo:
+    """Recognize a song from a path."""
     return asyncio.run(recognize_async(path))
 
 

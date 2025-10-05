@@ -11,18 +11,15 @@ class SoundCloudTrack:
     track: Track
 
     def write_mp3_to(self, file):
+        """Write mp3 to file."""
         self.track.write_mp3_to(file)
 
 
 def resolve(url: str) -> SoundCloudTrack:
+    """Resolve a URL to a SoundCloudTrack object."""
     print(f"Resolving {url}")
     _track = SoundcloudAPI().resolve(url)
-    return SoundCloudTrack(
-        id=_track.id,
-        title=_track.title,
-        url=url,
-        track=_track
-    )
+    return SoundCloudTrack(id=_track.id, title=_track.title, url=url, track=_track)
 
 
 def download(track: SoundCloudTrack, path: str) -> str:
