@@ -25,6 +25,7 @@ class Tracklist:
             if track not in track_to_earliest_timestamp:
                 track_to_earliest_timestamp[track] = timestamp
         self.tracks = {timestamp: track for track, timestamp in track_to_earliest_timestamp.items()}
+        return self
 
     def print(self):
         def format_timestamp(ms: int) -> str:
@@ -35,3 +36,4 @@ class Tracklist:
         for timestamp, track in self.tracks.items():
             table.add_row([format_timestamp(timestamp), f"{track.artist} - {track.title}"])
         print(table)
+        return self

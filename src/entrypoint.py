@@ -11,14 +11,14 @@ def find_tracklist(url: str):
     with tempfile.NamedTemporaryFile(suffix='.mp3') as tmp_file:
         soundcloud.download(track, tmp_file.name)
         audio = load(tmp_file.name)
+        tracks = analyze(audio)
         tracklist = Tracklist(
             sc_id=track.id,
             sc_url=url,
             sc_title=track.title,
-            tracks=analyze(audio),
+            tracks=tracks,
         )
-        tracklist.deduplicate()
-        tracklist.print()
+        tracklist.deduplicate().print()
 
 
 if __name__ == "__main__":
