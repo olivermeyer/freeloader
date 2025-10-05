@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from urllib.parse import quote
 
 from prettytable import PrettyTable
 
@@ -7,6 +8,9 @@ from prettytable import PrettyTable
 class TrackInfo:
     artist: str
     title: str
+
+    def __str__(self) -> str:
+        return f"{self.artist} - {self.title}"
 
 
 @dataclass
@@ -32,8 +36,12 @@ class Tracklist:
             return f"{ms // 3600000}:{(ms // 60000) % 60:02d}:{(ms // 1000) % 60:02d}"
 
         table = PrettyTable()
-        table.field_names = ["Time", "Track"]
+        table.field_names = ["Time", "Track", "Search link"]
         for timestamp, track in self.tracks.items():
-            table.add_row([format_timestamp(timestamp), f"{track.artist} - {track.title}"])
+            table.add_row([
+                format_timestamp(timestamp),
+                track,
+                f"https://ecosia.org/search?q={quote(str(track))}",
+            ])
         print(table)
         return self
