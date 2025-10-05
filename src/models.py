@@ -31,17 +31,18 @@ class Tracklist:
         self.tracks = {timestamp: track for track, timestamp in track_to_earliest_timestamp.items()}
         return self
 
-    def print(self):
+    def print(self, include_search_links: bool):
         def format_timestamp(ms: int) -> str:
             return f"{ms // 3600000}:{(ms // 60000) % 60:02d}:{(ms // 1000) % 60:02d}"
 
         table = PrettyTable()
-        table.field_names = ["Time", "Track", "Search link"]
+        table.field_names = ["Time", "Track"]
+        if include_search_links:
+            table.field_names += ["Search Link"]
         for timestamp, track in self.tracks.items():
-            table.add_row([
-                format_timestamp(timestamp),
-                track,
-                f"https://ecosia.org/search?q={quote(str(track))}",
-            ])
+            row = [format_timestamp(timestamp), track]
+            if include_search_links:
+                row += [f"https://ecosia.org/search?q={quote(str(track))}"]
+            table.add_row(row)
         print(table)
         return self

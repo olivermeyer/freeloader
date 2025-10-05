@@ -12,4 +12,6 @@ Install dependencies:
 ## Analyse recording
 Run the entrypoint script with a SoundCloud URL:
 
-    poetry run python src/entrypoint <url>
+    poetry run python src/entrypoint <url> [-s]
+
+Running with `-s` includes clickable search links in the output.
